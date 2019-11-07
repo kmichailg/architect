@@ -20,12 +20,10 @@ class Utility
         if (is_array($objectOrArray)) {
             $ret = $objectOrArray[$property];
         } else {
-            $ret = $objectOrArray->{$property};
+            $ret = $objectOrArray->getAttributes()[$property];
         }
 
-        if (!$format) {
-            return $ret;
-        }
+        $format ?: return $ret;
 
         return static::formatProperty($ret);
     }
@@ -58,7 +56,7 @@ class Utility
                     $objectOrArray->setAttribute($property, $value);
                 }
             }
-        } else if (is_array($objectOrArray)) {
+        } elseif (is_array($objectOrArray)) {
             $objectOrArray[$property] = $value;
         } else {
             $objectOrArray->{$property} = $value;

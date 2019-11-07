@@ -31,15 +31,33 @@ class IdsModeResolver implements ModeResolverInterface
             // model, because the first item returned was a property
             // We therefore just return the single ID
             if (Utility::isPrimitive($firstElement)) {
-                return Utility::getProperty($object, 'id', true);
+                $return = Utility::getProperty($object, $entry->getKeyName(), true);
+
+                if ($entry->incrementing){
+                    return (int) $return;
+                }
+
+                return $return;
             }
 
             return array_map(function ($entry) {
-                return Utility::getProperty($entry, 'id', true);
+               $return = Utility::getProperty($entry, $entry->getKeyName(), true);
+
+               if ($entry->incrementing){
+                   return (int) $return;
+               }
+
+               return $return;
             }, $object);
         } elseif ($object instanceof Collection) {
             return $object->map(function ($entry) {
-                return Utility::getProperty($entry, 'id', true);
+                $return = Utility::getProperty($entry, $entry->getKeyName(), true);
+
+                if ($entry->incrementing){
+                    return (int) $return;
+                }
+
+                return $return;
             });
         // The relation is not a collection, but rather
         // a singular relation
