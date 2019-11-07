@@ -4,8 +4,6 @@ namespace Optimus\Architect\ModeResolver;
 
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Support\Collection;
-use Optimus\Architect\ModeResolver\IdsModeResolver;
-use Optimus\Architect\ModeResolver\ModeResolverInterface;
 use Optimus\Architect\Utility;
 
 class SideloadModeResolver implements ModeResolverInterface
@@ -20,10 +18,12 @@ class SideloadModeResolver implements ModeResolverInterface
     /**
      * Move all relational resources to the root element and
      * use idsResolver to replace them with a collection of identifiers
-     * @param  string $property The property to resolve
-     * @param  object $object The object which has the property
-     * @param  array $root The root array which will contain the object
+     *
+     * @param  string $property         The property to resolve
+     * @param  object $object           The object which has the property
+     * @param  array  $root             The root array which will contain the object
      * @param  string $fullPropertyPath The full dotnotation path to this property
+     *
      * @return mixed
      */
     public function resolve($property, &$object, &$root, $fullPropertyPath)
@@ -35,9 +35,11 @@ class SideloadModeResolver implements ModeResolverInterface
 
     /**
      * Add the collection to the root array
-     * @param array $root
+     *
+     * @param array  $root
      * @param object $object
      * @param string $fullPropertyPath
+     *
      * @return void
      */
     private function addCollectionToRoot(&$root, &$object, $fullPropertyPath)
@@ -46,8 +48,8 @@ class SideloadModeResolver implements ModeResolverInterface
         // collection of resources
         $isResource = false;
         if (is_array($object)) {
-            $copy = $object;
-            $values = array_values($copy);
+            $copy                    = $object;
+            $values                  = array_values($copy);
             $firstPropertyOrResource = array_shift($values);
 
             if (Utility::isPrimitive($firstPropertyOrResource)) {
@@ -77,8 +79,10 @@ class SideloadModeResolver implements ModeResolverInterface
     /**
      * If a collection for this resource has already begun (i.e. multiple
      * resources share this type of resource), then merge with the existing collection
-     * @param  mixed $collection
+     *
+     * @param  mixed  $collection
      * @param  object $object
+     *
      * @return void
      */
     private function mergeRootCollection(&$collection, $object)
@@ -97,13 +101,14 @@ class SideloadModeResolver implements ModeResolverInterface
     /**
      * Check if the resource already exists in the root collection by id
      * TODO: https://github.com/esbenp/laravel-controller/issues/2
+     *
      * @param mixed $collection
      * @param mixed $resource
      */
     private function addResourceToRootCollectionIfNonExistant(&$collection, $resource)
     {
         $identifier = Utility::getProperty($resource, 'id', true);
-        $exists = false;
+        $exists     = false;
 
         $copy = $collection instanceof Collection ? $collection->toArray() : $collection;
 

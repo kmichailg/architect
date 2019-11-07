@@ -9,8 +9,10 @@ class Utility
 {
     /**
      * Get a property of an array or object
-     * @param  mixed $objectOrArray object or array
+     *
+     * @param  mixed  $objectOrArray object or array
      * @param  string $property
+     *
      * @return mixed
      */
     public static function getProperty($objectOrArray, $property, $format = false)
@@ -30,7 +32,8 @@ class Utility
 
     /**
      * Set a property of an Eloquent model, normal object or array
-     * @param mixed $objectOrArray model, object or array
+     *
+     * @param mixed  $objectOrArray model, object or array
      * @param string $property
      * @param void
      */
@@ -47,15 +50,15 @@ class Utility
                 if ($objectOrArray->relationLoaded($property) && !Utility::isPrimitive($value)) {
                     $objectOrArray->setRelation($property, $value);
 
-            // If attribute is not a relation we just set it on
-            // the model directly. If it is a primitive relation (a relation
-            // converted to IDs) we unset the relation and set it as an attribute
+                    // If attribute is not a relation we just set it on
+                    // the model directly. If it is a primitive relation (a relation
+                    // converted to IDs) we unset the relation and set it as an attribute
                 } else {
                     unset($objectOrArray[$property]);
                     $objectOrArray->setAttribute($property, $value);
                 }
             }
-        } elseif (is_array($objectOrArray)) {
+        } else if (is_array($objectOrArray)) {
             $objectOrArray[$property] = $value;
         } else {
             $objectOrArray->{$property} = $value;
@@ -64,7 +67,9 @@ class Utility
 
     /**
      * Is the variable a primitive type
-     * @param  mixed  $input
+     *
+     * @param  mixed $input
+     *
      * @return boolean
      */
     public static function isPrimitive($input)
@@ -74,7 +79,9 @@ class Utility
 
     /**
      * Is the input a collection of resources?
-     * @param  mixed  $input
+     *
+     * @param  mixed $input
+     *
      * @return boolean
      */
     public static function isCollection($input)
