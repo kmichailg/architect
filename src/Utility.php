@@ -23,7 +23,9 @@ class Utility
             $ret = $objectOrArray->getAttributes()[$property];
         }
 
-        $format ?: return $ret;
+        if (!$format) {
+            return $ret;
+        }
 
         return static::formatProperty($ret);
     }
@@ -48,7 +50,7 @@ class Utility
                 if ($objectOrArray->relationLoaded($property) && !Utility::isPrimitive($value)) {
                     $objectOrArray->setRelation($property, $value);
 
-                    // If attribute is not a relation we just set it on
+                // If attribute is not a relation we just set it on
                     // the model directly. If it is a primitive relation (a relation
                     // converted to IDs) we unset the relation and set it as an attribute
                 } else {
